@@ -1,0 +1,15 @@
+{% extends "newsApp/base.html" %}
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+{% if results %}
+    <ul>
+        {% for article in results %}
+            <li>
+                <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+{% endblock %}

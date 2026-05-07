@@ -1,0 +1,12 @@
+{% extends "newsApp/base.html" %}
+{% block content %}
+<h2>Category List</h2>
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'category_view' category.id %}">{{ category.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'add_category' %}" class="btn btn-primary">Add Category</a>
+{% endblock %}

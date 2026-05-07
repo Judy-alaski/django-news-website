@@ -1,0 +1,179 @@
+{% extends 'newsApp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Top Stories Banner -->
+    <div class="breaking-news-wrapper my-3 bg-custom-grey p-2 text-white rounded">
+        <strong class="me-2">Top Stories:</strong>
+        <div class="breaking-news-text d-inline-block">
+            <a href="#"> {{ breaking_news.title }} </a>
+        </div>
+    </div>
+
+    <!-- Lead Article + Trending Sidebar -->
+    <div class="row mb-4">
+
+        <!-- Lead Article -->
+        <div class="col-lg-8">
+            {% with article=lead_articles.0 %}
+            {% if article and article.id %}
+            <div class="position-relative mb-3">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 400px; object-fit: cover;">
+                {% else %}
+                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 400px; object-fit: cover;">
+                {% endif %}
+                <div class="position-absolute bottom-0 p-3 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
+                    <h2><a href="{% url 'article_detail' article.id %}" class="text-white text-decoration-none">{{ article.title }}</a></h2>
+                </div>
+            </div>
+            {% else %}
+            <p><strong>No lead article available</strong></p>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Trending Sidebar -->
+        <div class="col-lg-4">
+            <div class="sidebar bg-white p-3 rounded shadow-sm">
+                <h5 class="fw-bold mb-3">Trending Now</h5>
+                <ul class="list-group list-group-flush">
+                    {% for article in trending_articles %}
+                    <li class="list-group-item p-2 d-flex align-items-start">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="me-2 rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <a href="{% url 'article_detail' article.id %}" class="text-decoration-none text-dark fw-medium">
+                            {{ article.title|truncatewords:10 }}
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-muted">No trending articles</li>
+                    {% endfor %}
+                </ul>
+                <div class="text-end mt-2">
+                    <a href="{% url 'trending_articles' %}" 
+                    class="btn btn-sm {% if request.resolver_match.url_name == 'trending_articles' %}btn-secondary{% else %}btn-outline-primary{% endif %}">More Trending News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remaining Lead Articles (if any) -->
+    {% if lead_articles|length > 1 %}
+    <div class="row mb-4">
+        {% for article in lead_articles|slice:"1:" %}
+        <div class="col-md-6 mb-3">
+            <div class="position-relative">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                <div class="position-absolute bottom-0 p-2 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
+                    <h5><a href="{% url 'article_detail' article.id %}" class="text-white text-decoration-none">{{ article.title }}</a></h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Top Stories Grid -->
+    <div class="row mb-5" id="article-container">
+        {% for story in top_stories %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="{{ story.image.url }}" class="card-img-top" alt="{{ story.title }}">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <a href="{% url 'article_detail' story.id %}" class="text-decoration-none text-dark">{{ story.title }}</a>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Pagination Controls -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if top_stories.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ top_stories.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
+                    </li>
+                    {% endif %}
+                    {% for num in top_stories.paginator.page_range %}
+                    {% if top_stories.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > top_stories.number|add:'-3' and num < top_stories.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if top_stories.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ top_stories.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Category-Based Sections -->
+    {% for category, articles in category_articles.items %}
+    <div class="category-block mb-5">
+        <h4 class="fw-bold border-bottom pb-2">{{ category }}</h4>
+        <div class="row">
+            {% for article in articles %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <a href="{% url 'article_detail' article.id %}" class="text-dark text-decoration-none">{{ article.title }}</a>
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+<script>
+    let page = 2;
+
+    document.getElementById('load-more').addEventListener('click', function () {
+        fetch(`/load-more-articles/?page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.html.trim() === "") {
+                    document.getElementById('load-more').style.display = 'none';
+                } else {
+                    const container = document.createElement('div');
+                    container.innerHTML = data.html;
+                    const articles = container.querySelectorAll('.col-lg-3');
+                    articles.forEach(article => {
+                        document.getElementById('article-container').appendChild(article);
+                    });
+                    page += 1;
+                }
+            });
+    });
+</script>
+

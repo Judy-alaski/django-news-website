@@ -1,0 +1,13 @@
+{% extends "newsApp/base.html" %}
+
+{% block content %}
+<h2>Submit an Article</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% for message in messages %}
+    <div class="alert {{ message.tags }}">{{ message }}</div>
+{% endfor %}
+{% endblock %}
