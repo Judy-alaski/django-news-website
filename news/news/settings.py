@@ -84,9 +84,15 @@ WSGI_APPLICATION = 'news.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgresql://postgres:Elevi_123456#@localhost:5432/newsdb')
+        default=os.environ.get("DATABASE_URL")
     )
 }
+
+#DATABASES = {
+    #'default': dj_database_url.config(
+        #default=os.getenv('DATABASE_URL', 'postgresql://postgres:Elevi_123456#@localhost:5432/newsdb')
+    #)
+#}
 
 #DEBUG = os.getenv("DEBUG", "0") == "True"
 #SECRET_KEY = os.getenv("SECRET_KEY")
