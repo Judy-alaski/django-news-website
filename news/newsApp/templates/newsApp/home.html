@@ -42,7 +42,11 @@
                 <ul class="list-group list-group-flush">
                     {% for article in trending_articles %}
                     <li class="list-group-item p-2 d-flex align-items-start">
+                        {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" class="me-2 rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% else %}
+                        <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="me-2 rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        {% endif %}
                         <a href="{% url 'article_detail' article.id %}" class="text-decoration-none text-dark fw-medium">
                             {{ article.title|truncatewords:10 }}
                         </a>
@@ -65,7 +69,13 @@
         {% for article in lead_articles|slice:"1:" %}
         <div class="col-md-6 mb-3">
             <div class="position-relative">
+
+                {% if article.image %}
                 <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                {% else %}
+                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 300px; object-fit: cover;"
+                {% endif %}
+                
                 <div class="position-absolute bottom-0 p-2 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
                     <h5><a href="{% url 'article_detail' article.id %}" class="text-white text-decoration-none">{{ article.title }}</a></h5>
                 </div>
@@ -80,7 +90,13 @@
         {% for story in top_stories %}
         <div class="col-lg-3 col-md-6 mb-4">
             <div class="card h-100 border-0 shadow-sm">
+
+                {% if story.image %}
                 <img src="{{ story.image.url }}" class="card-img-top" alt="{{ story.title }}">
+                {% else %}
+                <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Default Image">
+                {% endif %}
+                
                 <div class="card-body">
                     <h6 class="card-title">
                         <a href="{% url 'article_detail' story.id %}" class="text-decoration-none text-dark">{{ story.title }}</a>
@@ -89,6 +105,7 @@
             </div>
         </div>
         {% endfor %}
+
         <!-- Pagination Controls -->
         <div class="d-flex justify-content-center mt-4">
             <nav aria-label="Page navigation">
@@ -136,10 +153,17 @@
     <div class="category-block mb-5">
         <h4 class="fw-bold border-bottom pb-2">{{ category }}</h4>
         <div class="row">
+
             {% for article in articles %}
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
+
+                    {% if article.image %}
                     <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                    {% else %}
+                    <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Default Image">
+                    {% endif %}
+                    
                     <div class="card-body">
                         <h6 class="card-title">
                             <a href="{% url 'article_detail' article.id %}" class="text-dark text-decoration-none">{{ article.title }}</a>

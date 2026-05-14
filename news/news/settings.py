@@ -82,11 +82,30 @@ WSGI_APPLICATION = 'news.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
-}
+#DATABASES = {
+    #'default': dj_database_url.config(
+        #default=os.environ.get("DATABASE_URL")
+    #)
+#}
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'newsdb',
+            'USER': 'postgres',
+            'PASSWORD': 'Elevi_123456#',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
 
 #DATABASES = {
     #'default': dj_database_url.config(
