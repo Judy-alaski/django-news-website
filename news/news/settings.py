@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 import dj_database_url
 import os
 
@@ -43,7 +46,17 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django.contrib.sitemaps',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'ddcf7lxel',
+    'API_KEY': '684242714977298',
+    'API_SECRET': 'p8tk7EYDQzaVUDE1kSqdN0pKIZ8',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -191,8 +204,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_UPLOAD_PATH = "uploads/"  # Path where uploaded images will be stored
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
