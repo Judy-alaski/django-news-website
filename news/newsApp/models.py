@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -24,7 +25,14 @@ class Author(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = RichTextUploadingField()
-    image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    
+    image = models.ImageField(
+    storage=MediaCloudinaryStorage(),
+    upload_to='articles/',
+    blank=True,
+    null=True
+    )
+    #image = models.ImageField(upload_to='articles/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     published_date = models.DateTimeField(auto_now_add=True)
