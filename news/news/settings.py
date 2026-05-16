@@ -38,9 +38,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l#jgnal--4b=ema$%73!p314)w3satwj88&3syh!a7^(4dc&ew'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'urbannews-xz7c.onrender.com',
+]
+
+#ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -241,3 +247,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://urbannews-xz7c.onrender.com',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
