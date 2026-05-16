@@ -16,7 +16,11 @@
             {% for article in articles %}
             <div class="col-md-4 mb-3">
                 <div class="card h-100">
+                    {% if article.image %}
                     <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                    {% else %}
+                    <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Default Image">
+                    {% endif %}
                     <div class="card-body">
                         <h6 class="card-title">
                             <a href="{% url 'article_detail' article.id %}" class="text-dark text-decoration-none">
