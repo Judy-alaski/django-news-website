@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from cloudinary_storage.storage import MediaCloudinaryStorage
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -37,6 +38,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('article_detail', args=[str(self.id)])
     
 class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
