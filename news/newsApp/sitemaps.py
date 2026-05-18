@@ -6,7 +6,7 @@ class ArticleSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        return Article.objects.all().order_by('-published_date')
+        return Article.objects.all()
 
     def lastmod(self, obj):
         return obj.published_date

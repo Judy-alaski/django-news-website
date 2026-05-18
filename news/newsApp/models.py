@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from cloudinary_storage.storage import MediaCloudinaryStorage
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -11,9 +12,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-#class Author(models.Model):
-    #name = models.CharField(max_length=100)
-    #bio = models.TextField()
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
