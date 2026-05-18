@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.urls import reverse
 from cloudinary_storage.storage import MediaCloudinaryStorage
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField

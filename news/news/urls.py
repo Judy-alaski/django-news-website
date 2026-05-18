@@ -36,7 +36,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('newsApp.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': {'articles': GenericSitemap(info_dict, priority=0.6)}}, name='django.contrib.sitemaps.views.sitemap'),
     path('sitemap.xml',sitemap,{'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 if settings.DEBUG:
