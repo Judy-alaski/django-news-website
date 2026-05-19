@@ -33,6 +33,7 @@ class Article(models.Model):
     #image = models.ImageField(upload_to='articles/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    summary = models.TextField(max_length=300, blank=True)
     published_date = models.DateTimeField(auto_now_add=True)
     is_breaking = models.BooleanField(default=False)
 
