@@ -11,7 +11,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('privacy-policy/', views.privacy, name='privacy'),
     path('terms/', views.terms, name='terms'),
-    path('robots.txt', views.robots, name='robots'),
 
 
     # Article Views
