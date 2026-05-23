@@ -269,7 +269,6 @@ def robots_txt(request):
     data = """
     User-agent: *
     Allow: /
-
     Sitemap: https://urbannews-xz7c.onrender.com/sitemap.xml
     """
     return HttpResponse(data, content_type="text/plain")
