@@ -265,6 +265,11 @@ def privacy(request):
 def terms(request):
     return render(request, 'newsApp/terms.html')    
 
-def robots(request):
-    content = render(request, 'robots', content_type='text/plain')
-    return content
+def robots_txt(request):
+    data = """
+    User-agent: *
+    Allow: /
+
+    Sitemap: https://urbannews-xz7c.onrender.com/sitemap.xml
+    """
+    return HttpResponse(data, content_type="text/plain")

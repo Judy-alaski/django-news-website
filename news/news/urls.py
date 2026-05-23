@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from django.views.generic import TemplateView
+from newsApp.views import robots_txt
 from newsApp.sitemaps import ArticleSitemap
 from newsApp.models import Article
 
@@ -39,13 +39,7 @@ urlpatterns = [
 
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
-    path(
-        'robots.txt',
-        TemplateView.as_view(
-            template_name='robots.txt',
-            content_type='text/plain'
-        ),
-    ),
+    path("robots.txt", robots_txt),
 
     path(
         'sitemap.xml',

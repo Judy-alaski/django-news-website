@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /admin/
-
-Sitemap: https://urbannews-xz7c.onrender.com/sitemap.xml
