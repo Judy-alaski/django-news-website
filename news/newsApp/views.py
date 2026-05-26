@@ -69,10 +69,28 @@ def category_articles(request, category_name):
     })
 
 
-def article_detail(request, id):
+#def article_detail(request, slug):
     # Fetch the article or return a 404 if not found
+    #article = get_object_or_404(Article, id=id)
+    #article = get_object_or_404(Article, slug=slug)
+    #def redirect_old_article(request, id):
+    #article = get_object_or_404(Article, id=id)
+    #return redirect('article_detail', slug=article.slug)
+    #return render(request, 'newsApp/article_detail.html', {'article': article})
+
+def article_detail(request, slug):
+    # Fetch article using slug
+    article = get_object_or_404(Article, slug=slug)
+
+    return render(request, 'newsApp/article_detail.html', {
+        'article': article
+    })
+
+
+def redirect_old_article(request, id):
     article = get_object_or_404(Article, id=id)
-    return render(request, 'newsApp/article_detail.html', {'article': article})
+
+    return redirect('article_detail', slug=article.slug)    
 
 def article_upload(request):
     if request.method == 'POST' and request.FILES:

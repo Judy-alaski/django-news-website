@@ -24,7 +24,7 @@
                     {% endif %}
                     <div class="card-body">
                         <h6 class="card-title">
-                            <a href="{% url 'article_detail' article.id %}" class="text-dark text-decoration-none">
+                            <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
                                 {{ article.title }}
                             </a>
                         </h6>

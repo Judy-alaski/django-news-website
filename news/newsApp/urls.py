@@ -14,7 +14,9 @@ urlpatterns = [
 
 
     # Article Views
-    path('article/<int:id>/', views.article_detail, name='article_detail'),
+    #path('article/<int:id>/', views.article_detail, name='article_detail'),
+    path('article/<slug:slug>/', views.article_detail, name='article_detail'),
+    path('article/<int:id>/', views.redirect_old_article),
     path('upload/', views.article_upload, name='article_upload'),
     path('add_article/', views.add_article, name='add_article'),
 

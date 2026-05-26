@@ -78,11 +78,11 @@
         <strong>Breaking News:</strong>
         <marquee behavior="scroll" direction="left" scrollamount="5">
             {% for article in breaking_news %}
-            <a href="{% url 'article_detail' article.id %}" class="text-white text-decoration-none mx-2">
+            <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none mx-2">
                 {{ article.title }}
             </a>
             {% empty %}
-            No breaking news available at the moment.
+            Coming Soon...
             {% endfor %}
         </marquee>
     </div>
@@ -112,7 +112,7 @@
     <script>
         const headlines = [
         {% for article in breaking_news %}
-        { title: "{{ article.title|escapejs }}", url: "{% url 'article_detail' article.id %}" },
+        { title: "{{ article.title|escapejs }}", url: "{% url 'article_detail' article.slug %}" },
         {% endfor %}
        ];
 
