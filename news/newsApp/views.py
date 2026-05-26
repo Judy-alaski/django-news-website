@@ -86,7 +86,6 @@ def article_detail(request, slug):
         'article': article
     })
 
-
 def redirect_old_article(request, id):
     article = get_object_or_404(Article, id=id)
 
