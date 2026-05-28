@@ -203,7 +203,7 @@ def search_articles(request):
     #}
     #return render(request, 'newsApp/search_results.html', context)
 
-def subscribe(request):
+def newsletter_signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
 
