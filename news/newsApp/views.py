@@ -211,7 +211,7 @@ def subscribe(request):
             NewsletterSubscriber.objects.create(email=email)
             messages.success(request, "Subscription successful!")
 
-    return redirect('/')
+    return redirect('home')
 
 
 @login_required
