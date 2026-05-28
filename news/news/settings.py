@@ -43,10 +43,16 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True 
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'urbannews-xz7c.onrender.com',
+    "urbannews.com.ng",
+    "www.urbannews.com.ng",
+    "urbannews-xz7c.onrender.com",
 ]
+
+#ALLOWED_HOSTS = [
+    #'127.0.0.1',
+    #'localhost',
+    #'urbannews-xz7c.onrender.com',
+#]
 
 #ALLOWED_HOSTS = ['*']
 
