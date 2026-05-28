@@ -203,15 +203,15 @@ def search_articles(request):
     #}
     #return render(request, 'newsApp/search_results.html', context)
 
-def newsletter_signup(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
+#def newsletter_signup(request):
+    #if request.method == 'POST':
+        #email = request.POST.get('email')
 
-        if not NewsletterSubscriber.objects.filter(email=email).exists():
-            NewsletterSubscriber.objects.create(email=email)
-            messages.success(request, "Subscription successful!")
+        #if not NewsletterSubscriber.objects.filter(email=email).exists():
+            #NewsletterSubscriber.objects.create(email=email)
+            #messages.success(request, "Subscription successful!")
 
-    return redirect('/')
+    #return redirect('/')
 
 
 @login_required
