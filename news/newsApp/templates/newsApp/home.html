@@ -73,7 +73,7 @@
                 {% if article.image %}
                 <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
                 {% else %}
-                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 300px; object-fit: cover;"
+                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
                 {% endif %}
                 
                 <div class="position-absolute bottom-0 p-2 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
@@ -177,31 +177,22 @@
     {% endfor %}
 
     <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-dark text-white">
-        Most Read
-    </div>
-
-    <div class="card-body">
-
-        {% for article in most_viewed %}
-        <div class="mb-3">
-
-            <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
-                {{ article.title }}
-            </a>
-
-            <small class="d-block text-muted">
-                {{ article.views }} views
-            </small>
-
+        <div class="card-header bg-dark text-white">
+            Most Read
         </div>
-        {% endfor %}
-
+        <div class="card-body">
+            {% for article in most_viewed %}
+            <div class="mb-3">
+                <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
+                    {{ article.title }}
+                </a>
+                <small class="d-block text-muted">
+                    {{ article.views }} views
+                </small>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
-
-</div>
-{% endblock %}
 
 <script>
     let page = 2;
@@ -224,4 +215,4 @@
             });
     });
 </script>
-
+{% endblock %}
