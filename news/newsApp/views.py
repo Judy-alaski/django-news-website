@@ -69,21 +69,17 @@ def category_articles(request, category_name):
     })
 
 
-#def article_detail(request, slug):
-    # Fetch the article or return a 404 if not found
-    #article = get_object_or_404(Article, id=id)
-    #article = get_object_or_404(Article, slug=slug)
-    #def redirect_old_article(request, id):
-    #article = get_object_or_404(Article, id=id)
-    #return redirect('article_detail', slug=article.slug)
-    #return render(request, 'newsApp/article_detail.html', {'article': article})
-
 def article_detail(request, slug):
     # Fetch article using slug
     article = get_object_or_404(Article, slug=slug)
 
+    related_articles = Article.objects.filter(
+        category=article.category
+    ).exclude(id=article.id).order_by('-published_date')[:4]
+
     return render(request, 'newsApp/article_detail.html', {
-        'article': article
+        'article': article,
+        'related_articles': related_articles,
     })
 
 def redirect_old_article(request, id):
@@ -110,11 +106,7 @@ def load_more_articles(request):
         return JsonResponse({'html': ''})
 
     html = render_to_string('newsApp/includes/top_stories_grid.html', {'top_stories': next_page_articles})
-    return JsonResponse({'html': html})
-
-#def trending_articles_view(request):
-    #trending_articles = Article.objects.order_by('-published_date')[:20]  # Customize limit as needed
-    #return render(request, 'newsApp/trending_articles.html', {'trending_articles': trending_articles})  
+    return JsonResponse({'html': html})  
 
 def trending_articles_view(request):
     categories = Category.objects.all()
@@ -123,7 +115,7 @@ def trending_articles_view(request):
     for category in categories:
         articles = Article.objects.filter(
             category=category
-        ).order_by('-published_date')[:5]  # Show top 5 per category
+        ).order_by('-published_date')[:12] 
         if articles.exists():
             trending_by_category[category.name] = articles
 
