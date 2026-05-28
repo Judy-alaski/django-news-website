@@ -58,7 +58,7 @@
                         {% endif %}
                     </ul>
 
-                    <form class="d-flex" method="GET" action="{% url 'search' %}">
+                    <form class="d-flex" method="GET" action="{% url 'search_articles' %}">
                         <input class="form-control me-2" type="search" name="q" placeholder="Search news...">
                         <button class="btn btn-danger" type="submit">Search</button>
                     </form>
@@ -71,24 +71,6 @@
         </nav>
     </div>
     
-    <!-- Breaking News Banner -->
-    <div class="breaking-ticker bg-danger text-white py-2">
-    <div class="container d-flex">
-
-        <strong class="me-3">BREAKING:</strong>
-
-        <marquee behavior="scroll" direction="left">
-
-            {% for article in breaking_news %}
-                <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none me-4">
-                    {{ article.title }}
-                </a>
-            {% endfor %}
-
-        </marquee>
-
-    </div>
-</div>
 
 <div class="newsletter-section bg-dark text-white p-5 mt-5">
     <div class="container text-center">
@@ -137,29 +119,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        const headlines = [
-        {% for article in breaking_news %}
-        { title: "{{ article.title|escapejs }}", url: "{% url 'article_detail' article.slug %}" },
-        {% endfor %}
-       ];
 
-      const ticker = document.getElementById("breaking-news-text");
-
-      let index = 0;
-      function showNextHeadline() {
-        if (headlines.length > 0) {
-            ticker.innerHTML = `<a href="${headlines[index].url}" class="text-white text-decoration-none">${headlines[index].title}</a>`;
-            index = (index + 1) % headlines.length;
-        } else {
-            ticker.innerHTML = `<span class="text-white">No breaking news at the moment.</span>`;
-        }
-     }
-
-      showNextHeadline();
-      setInterval(showNextHeadline, 4000);
-    </script>
-    
 </body>
 </html>
