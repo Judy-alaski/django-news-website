@@ -76,28 +76,34 @@ def category_articles(request, category_name):
 
 
 def article_detail(request, slug):
-    # Fetch article using slug
-    article = get_object_or_404(Article, slug=slug)
 
-     # increase views
-    article.views += 1
-    article.save()
+    current_article = get_object_or_404(
+        Article,
+        slug=slug
+    )
 
+    # increase views
+    current_article.views += 1
+    current_article.save()
+
+    # related articles
     related_articles = Article.objects.filter(
-        category=article.category
-    ).exclude(id=article.id).order_by('-published_date')[:4]
+        category=current_article.category
+    ).exclude(
+        id=current_article.id
+    ).order_by('-published_date')[:4]
 
-    # tag recommendation system
-    tags = article.tags.split(',')
-
-    recommended_articles = Article.objects.filter(
-        Q(tags__icontains=tags[0].strip())
-    ).exclude(id=article.id).distinct()[:4]
+    # recommended articles
+    recommended_articles = []
 
     return render(request, 'newsApp/article_detail.html', {
-        'article': article,
+
+        'article': current_article,
+
         'related_articles': related_articles,
+
         'recommended_articles': recommended_articles,
+
     })
 
 def redirect_old_article(request, id):
@@ -175,12 +181,12 @@ def logout_view(request):
     return redirect('home')
 
 def search_articles(request):
+
     query = request.GET.get('q')
 
     results = Article.objects.filter(
         Q(title__icontains=query) |
-        Q(content__icontains=query) |
-        Q(tags__icontains=query)
+        Q(content__icontains=query)
     ).distinct()
 
     return render(request, 'newsApp/search_results.html', {
