@@ -207,11 +207,14 @@ def newsletter_signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
 
-        if not NewsletterSubscriber.objects.filter(email=email).exists():
-            NewsletterSubscriber.objects.create(email=email)
+        if email:
+
+            NewsletterSubscriber.objects.get_or_create(
+                email=email
+            )
             messages.success(request, "Subscription successful!")
 
-    #return redirect('/')
+    return redirect('/')
 
 
 @login_required
