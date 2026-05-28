@@ -1,45 +1,15 @@
-{% extends 'newsApp/base.html' %}
-
+{% extends "newsApp/base.html" %}
 {% block content %}
-
-<div class="container mt-4">
-
-    <h3 class="mb-4">
-        Search Results For "{{ query }}"
-    </h3>
-
-    <div class="row">
-
+<h2>Search Results for "{{ query }}"</h2>
+{% if results %}
+    <ul>
         {% for article in results %}
-        <div class="col-md-4 mb-4">
-
-            <div class="card h-100">
-
-                {% if article.image %}
-                <img src="{{ article.image.url }}" class="card-img-top">
-                {% endif %}
-
-                <div class="card-body">
-
-                    <h5>
-                        <a href="{% url 'article_detail' article.slug %}">
-                            {{ article.title }}
-                        </a>
-                    </h5>
-
-                </div>
-
-            </div>
-
-        </div>
-        {% empty %}
-
-        <p>No articles found.</p>
-
+            <li>
+                <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
+            </li>
         {% endfor %}
-
-    </div>
-
-</div>
-
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
 {% endblock %}

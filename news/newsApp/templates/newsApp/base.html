@@ -58,9 +58,11 @@
                         {% endif %}
                     </ul>
 
-                    <form class="d-flex" method="GET" action="{% url 'search_articles' %}">
-                        <input class="form-control me-2" type="search" name="q" placeholder="Search news...">
-                        <button class="btn btn-danger" type="submit">Search</button>
+                    <form class="d-flex mt-2 mt-lg-0 ms-lg-3" action="{% url 'search' %}" method="GET" style="position: relative;">
+                        <input class="form-control ps-5" type="search" name="q" placeholder="Search..." aria-label="Search" style="border-radius: 50px;">
+                        <button type="submit" class="btn position-absolute top-50 start-0 translate-middle-y ms-3 p-0 text-muted" style="z-index: 10;">
+                            <i class="bi bi-search"></i>
+                        </button>
                     </form>
 
                     {% if user.is_authenticated %}
@@ -70,37 +72,20 @@
             </div>
         </nav>
     </div>
-    
 
-<div class="newsletter-section bg-dark text-white p-5 mt-5">
-    <div class="container text-center">
-
-        <h3>Subscribe To UrbanNews</h3>
-
-        <p>Get daily breaking news updates.</p>
-
-        <form method="POST" action="{% url 'newsletter_signup' %}">
-            {% csrf_token %}
-
-            <div class="row justify-content-center">
-
-                <div class="col-md-4">
-                    <input type="email" name="email" class="form-control" placeholder="Enter your email">
-                </div>
-
-                <div class="col-md-2">
-                    <button class="btn btn-danger w-100">
-                        Subscribe
-                    </button>
-                </div>
-
-            </div>
-
-        </form>
-
+<!-- Breaking News Banner -->
+    <div class="breaking-news bg-danger text-white px-3 py-2">
+        <strong>Breaking News:</strong>
+        <marquee behavior="scroll" direction="left" scrollamount="5">
+            {% for article in breaking_news %}
+            <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none mx-2">
+                {{ article.title }}
+            </a>
+            {% empty %}
+            Coming Soon...
+            {% endfor %}
+        </marquee>
     </div>
-</div>
-
     
     <footer class="bg-dark text-white py-4">
         <ul class="navbar-nav">
@@ -122,3 +107,41 @@
 
 </body>
 </html>
+<script>
+    const headlines = [
+        {% for article in breaking_news %}
+        {
+            title: "{{ article.title|escapejs }}",
+            url: "{% url 'article_detail' article.slug %}"
+        },
+        {% endfor %}
+    ];
+
+    const ticker = document.getElementById("breaking-news-text");
+
+    let index = 0;
+
+    function showNextHeadline() {
+
+        if (headlines.length > 0) {
+
+            ticker.innerHTML =
+                `<a href="${headlines[index].url}" class="text-white text-decoration-none">
+                    ${headlines[index].title}
+                </a>`;
+
+            index = (index + 1) % headlines.length;
+
+        } else {
+
+            ticker.innerHTML =
+                `<span class="text-white">
+                    No breaking news at the moment.
+                </span>`;
+        }
+    }
+
+    showNextHeadline();
+
+    setInterval(showNextHeadline, 4000);
+</script>

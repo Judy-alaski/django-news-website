@@ -3,24 +3,6 @@
 
 {% block content %}
 
-<div class="breaking-ticker bg-danger text-white py-2">
-    <div class="container d-flex">
-
-        <strong class="me-3">BREAKING:</strong>
-
-        <marquee behavior="scroll" direction="left">
-
-            {% for article in breaking_news %}
-                <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none me-4">
-                    {{ article.title }}
-                </a>
-            {% endfor %}
-
-        </marquee>
-
-    </div>
-</div>
-
 <div class="container">
 
     <!-- Top Stories Banner -->
@@ -194,24 +176,6 @@
         </div>
     </div>
     {% endfor %}
-
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-dark text-white">
-            Most Read
-        </div>
-        <div class="card-body">
-            {% for article in most_viewed %}
-            <div class="mb-3">
-                <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
-                    {{ article.title }}
-                </a>
-                <small class="d-block text-muted">
-                    {{ article.views }} views
-                </small>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
 <script>
     let page = 2;

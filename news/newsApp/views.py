@@ -39,11 +39,6 @@ def home(request):
     recent_articles = all_articles[:10]
     trending_articles = all_articles[:6]
 
-    # MOST VIEWED ARTICLES
-    most_viewed = Article.objects.order_by(
-        '-views'
-    )[:5]
-
     # Filter articles by category
     politics_articles = all_articles.filter(category__name="Politics")[:5]
     sports_articles = all_articles.filter(category__name="Sports")[:5]
@@ -56,7 +51,6 @@ def home(request):
         'top_stories': top_stories,
         'lead_articles': lead_articles,
         'recent_articles': recent_articles,
-         'most_viewed': most_viewed,
         'trending_articles': trending_articles,
         'categories_articles': {
             "Politics": politics_articles,
@@ -93,17 +87,11 @@ def article_detail(request, slug):
         id=current_article.id
     ).order_by('-published_date')[:4]
 
-    # recommended articles
-    recommended_articles = []
-
     return render(request, 'newsApp/article_detail.html', {
 
         'article': current_article,
 
         'related_articles': related_articles,
-
-        'recommended_articles': recommended_articles,
-
     })
 
 def redirect_old_article(request, id):
@@ -180,47 +168,47 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-def search_articles(request):
+#def search_articles(request):
 
-    query = request.GET.get('q')
+    #query = request.GET.get('q')
 
-    results = Article.objects.filter(
-        Q(title__icontains=query) |
-        Q(content__icontains=query)
-    ).distinct()
+    #results = Article.objects.filter(
+        #Q(title__icontains=query) |
+        #Q(content__icontains=query)
+    #).distinct()
 
-    return render(request, 'newsApp/search_results.html', {
-        'query': query,
-        'results': results
-    })
-
-#def search_view(request):
-    #query = request.GET.get('q', '') 
-    #results = []
-
-    #if query:
-        #results = Article.objects.filter(
-            #Q(title__icontains=query) | Q(content__icontains=query)
-        #).order_by('-published_date')  
-
-    #context = {
+    #return render(request, 'newsApp/search_results.html', {
         #'query': query,
-        #'results': results,
-    #}
-    #return render(request, 'newsApp/search_results.html', context)
+        #'results': results
+    #})
 
-def newsletter_signup(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
+def search_view(request):
+    query = request.GET.get('q', '') 
+    results = []
 
-        if email:
+    if query:
+        results = Article.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query)
+        ).order_by('-published_date')  
 
-            NewsletterSubscriber.objects.get_or_create(
-                email=email
-            )
-            messages.success(request, "Subscription successful!")
+    context = {
+        'query': query,
+        'results': results,
+    }
+    return render(request, 'newsApp/search_results.html', context)
 
-    return redirect('/')
+#def newsletter_signup(request):
+    #if request.method == 'POST':
+        #email = request.POST.get('email')
+
+        #if email:
+
+            #NewsletterSubscriber.objects.get_or_create(
+                #email=email
+            #)
+            #messages.success(request, "Subscription successful!")
+
+    #return redirect('/')
 
 
 @login_required
