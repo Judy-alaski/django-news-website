@@ -39,6 +39,11 @@ def home(request):
     recent_articles = all_articles[:10]
     trending_articles = all_articles[:6]
 
+    # MOST VIEWED ARTICLES
+    most_viewed = Article.objects.order_by(
+        '-views'
+    )[:5]
+
     # Filter articles by category
     politics_articles = all_articles.filter(category__name="Politics")[:5]
     sports_articles = all_articles.filter(category__name="Sports")[:5]
@@ -51,6 +56,7 @@ def home(request):
         'top_stories': top_stories,
         'lead_articles': lead_articles,
         'recent_articles': recent_articles,
+         'most_viewed': most_viewed,
         'trending_articles': trending_articles,
         'categories_articles': {
             "Politics": politics_articles,
@@ -73,13 +79,25 @@ def article_detail(request, slug):
     # Fetch article using slug
     article = get_object_or_404(Article, slug=slug)
 
+     # increase views
+    article.views += 1
+    article.save()
+
     related_articles = Article.objects.filter(
         category=article.category
     ).exclude(id=article.id).order_by('-published_date')[:4]
 
+    # tag recommendation system
+    tags = article.tags.split(',')
+
+    recommended_articles = Article.objects.filter(
+        Q(tags__icontains=tags[0].strip())
+    ).exclude(id=article.id).distinct()[:4]
+
     return render(request, 'newsApp/article_detail.html', {
         'article': article,
         'related_articles': related_articles,
+        'recommended_articles': recommended_articles,
     })
 
 def redirect_old_article(request, id):

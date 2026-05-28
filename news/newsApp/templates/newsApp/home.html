@@ -176,6 +176,23 @@
     </div>
     {% endfor %}
 
+    <div class="most-viewed mt-5">
+    <h4>Most Read</h4>
+
+    {% for article in most_viewed %}
+    <div class="mb-3">
+
+        <a href="{% url 'article_detail' article.slug %}">
+            {{ article.title }}
+        </a>
+
+        <small class="text-muted d-block">
+            {{ article.views }} views
+        </small>
+
+    </div>
+    {% endfor %}
+
 </div>
 {% endblock %}
 

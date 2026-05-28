@@ -45,6 +45,10 @@ class Article(models.Model):
 
     summary = models.TextField(max_length=300, blank=True)
 
+    views = models.PositiveIntegerField(default=0)
+
+    tags = models.CharField(max_length=300, blank=True)
+
     published_date = models.DateTimeField(auto_now_add=True)
 
     is_breaking = models.BooleanField(default=False)
@@ -60,28 +64,6 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
-
-#class Article(models.Model):
-    #title = models.CharField(max_length=200)
-    #content = RichTextUploadingField()
-    
-    #image = models.ImageField(
-    #storage=MediaCloudinaryStorage(),
-    #upload_to='articles/',
-    #blank=True,
-    #null=True
-    #)
-    #category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
-    #author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    #summary = models.TextField(max_length=300, blank=True)
-    #published_date = models.DateTimeField(auto_now_add=True)
-    #is_breaking = models.BooleanField(default=False)
-
-    #def __str__(self):
-        #return self.title
-    
-    #def get_absolute_url(self):
-        #return reverse('article_detail', args=[str(self.id)])
     
 class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
