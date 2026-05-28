@@ -172,44 +172,46 @@ def signup(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home') 
+    return redirect('home')
 
-def search_view(request):
-    query = request.GET.get('q', '') 
-    results = []
+def search_articles(request):
+    query = request.GET.get('q')
 
-    if query:
-        results = Article.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
-        ).order_by('-published_date')  
+    results = Article.objects.filter(
+        Q(title__icontains=query) |
+        Q(content__icontains=query) |
+        Q(tags__icontains=query)
+    ).distinct()
 
-    context = {
+    return render(request, 'newsApp/search_results.html', {
         'query': query,
-        'results': results,
-    }
-    return render(request, 'newsApp/search_results.html', context)
+        'results': results
+    })
 
-def newsletter_signup(request):
+#def search_view(request):
+    #query = request.GET.get('q', '') 
+    #results = []
+
+    #if query:
+        #results = Article.objects.filter(
+            #Q(title__icontains=query) | Q(content__icontains=query)
+        #).order_by('-published_date')  
+
+    #context = {
+        #'query': query,
+        #'results': results,
+    #}
+    #return render(request, 'newsApp/search_results.html', context)
+
+def subscribe(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        if email:
-            # TODO: Save email to a model or send to mailing list API
-            messages.success(request, "Thanks for signing up!")
-            return redirect('home')  # Replace 'home' with your actual homepage URL name
-        else:
-            messages.error(request, "Please enter a valid email address.")
-    return redirect('home')
 
-def newsletter_signup(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        if email:
-            NewsletterSubscriber.objects.get_or_create(email=email)
-            messages.success(request, "Thanks for signing up!")
-            return redirect('home')
-        else:
-            messages.error(request, "Please enter a valid email address.")
-    return redirect('home')
+        if not NewsletterSubscriber.objects.filter(email=email).exists():
+            NewsletterSubscriber.objects.create(email=email)
+            messages.success(request, "Subscription successful!")
+
+    return redirect('/')
 
 
 @login_required

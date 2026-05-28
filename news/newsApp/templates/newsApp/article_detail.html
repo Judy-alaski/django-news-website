@@ -69,6 +69,31 @@
     </div>
 </div>
 
+<div class="social-share mt-4">
+
+    <h5>Share This Article</h5>
+
+    <a target="_blank"
+       href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+       Facebook
+    </a>
+
+    |
+
+    <a target="_blank"
+       href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}">
+       Twitter
+    </a>
+
+    |
+
+    <a target="_blank"
+       href="https://wa.me/?text={{ request.build_absolute_uri }}">
+       WhatsApp
+    </a>
+
+</div>
+
 {% if related_articles %}
 <div class="mt-5">
     <h4 class="mb-4">Related Articles</h4>

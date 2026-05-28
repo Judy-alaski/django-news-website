@@ -58,11 +58,9 @@
                         {% endif %}
                     </ul>
 
-                    <form class="d-flex mt-2 mt-lg-0 ms-lg-3" action="{% url 'search' %}" method="GET" style="position: relative;">
-                        <input class="form-control ps-5" type="search" name="q" placeholder="Search..." aria-label="Search" style="border-radius: 50px;">
-                        <button type="submit" class="btn position-absolute top-50 start-0 translate-middle-y ms-3 p-0 text-muted" style="z-index: 10;">
-                            <i class="bi bi-search"></i>
-                        </button>
+                    <form class="d-flex" method="GET" action="{% url 'search_articles' %}">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search news...">
+                        <button class="btn btn-danger" type="submit">Search</button>
                     </form>
 
                     {% if user.is_authenticated %}
@@ -74,22 +72,52 @@
     </div>
     
     <!-- Breaking News Banner -->
-    <div class="breaking-news bg-danger text-white px-3 py-2">
-        <strong>Breaking News:</strong>
-        <marquee behavior="scroll" direction="left" scrollamount="5">
+    <div class="breaking-ticker bg-danger text-white py-2">
+    <div class="container d-flex">
+
+        <strong class="me-3">BREAKING:</strong>
+
+        <marquee behavior="scroll" direction="left">
+
             {% for article in breaking_news %}
-            <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none mx-2">
-                {{ article.title }}
-            </a>
-            {% empty %}
-            Coming Soon...
+                <a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none me-4">
+                    {{ article.title }}
+                </a>
             {% endfor %}
+
         </marquee>
+
     </div>
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
+</div>
+
+<div class="newsletter-section bg-dark text-white p-5 mt-5">
+    <div class="container text-center">
+
+        <h3>Subscribe To UrbanNews</h3>
+
+        <p>Get daily breaking news updates.</p>
+
+        <form method="POST" action="{% url 'subscribe' %}">
+            {% csrf_token %}
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-4">
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email">
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-danger w-100">
+                        Subscribe
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
     </div>
+</div>
     
     <footer class="bg-dark text-white py-4">
         <ul class="navbar-nav">

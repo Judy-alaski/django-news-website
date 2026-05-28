@@ -176,22 +176,29 @@
     </div>
     {% endfor %}
 
-    <div class="most-viewed mt-5">
-    <h4>Most Read</h4>
+    <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-dark text-white">
+        Most Read
+    </div>
 
-    {% for article in most_viewed %}
-    <div class="mb-3">
+    <div class="card-body">
 
-        <a href="{% url 'article_detail' article.slug %}">
-            {{ article.title }}
-        </a>
+        {% for article in most_viewed %}
+        <div class="mb-3">
 
-        <small class="text-muted d-block">
-            {{ article.views }} views
-        </small>
+            <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
+                {{ article.title }}
+            </a>
+
+            <small class="d-block text-muted">
+                {{ article.views }} views
+            </small>
+
+        </div>
+        {% endfor %}
 
     </div>
-    {% endfor %}
+</div>
 
 </div>
 {% endblock %}
