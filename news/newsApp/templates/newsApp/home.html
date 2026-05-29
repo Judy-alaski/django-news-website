@@ -44,15 +44,8 @@
     {% endfor %}
 </div>
 
-<div class="mt-5">
-    <h4>Category Test</h4>
+<h3>Category Debug</h3>
 
-    {% for category, articles in category_articles.items %}
-        <h5>{{ category }}</h5>
-
-        {% for article in articles %}
-            <p>{{ article.title }}</p>
-        {% endfor %}
-
-    {% endfor %}
-</div>
+<p>Politics count: {{ categories_articles.Politics|length }}</p>
+<p>Sports count: {{ categories_articles.Sports|length }}</p>
+<p>Entertainment count: {{ categories_articles.Entertainment|length }}</p>
