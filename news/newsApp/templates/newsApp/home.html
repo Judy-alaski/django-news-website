@@ -29,3 +29,17 @@
         <p>No trending articles.</p>
     {% endfor %}
 </div>
+
+<div class="mt-5">
+    <h4>Top Stories Test</h4>
+
+    {% for story in top_stories %}
+        <p>
+            <a href="{% url 'article_detail' story.slug %}">
+                {{ story.title }}
+            </a>
+        </p>
+    {% empty %}
+        <p>No top stories found.</p>
+    {% endfor %}
+</div>
