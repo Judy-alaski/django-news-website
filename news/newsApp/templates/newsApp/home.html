@@ -8,19 +8,7 @@
     <!-- Top Stories Banner -->
 <div class="breaking-news-wrapper my-3 bg-custom-grey p-2 text-white rounded">
     <strong class="me-2">Top Stories:</strong>
-
-    <div class="breaking-news-text d-inline-block">
-
-        {% for article in breaking_news %}
-            <a href="{% url 'article_detail' article.slug %}"
-               class="text-white text-decoration-none me-3">
-                {{ article.title }}
-            </a>
-        {% empty %}
-            <span>No breaking news available</span>
-        {% endfor %}
-
-    </div>
+    <a href="#"> {{ breaking_news.title }} </a>
 </div>
 
 
