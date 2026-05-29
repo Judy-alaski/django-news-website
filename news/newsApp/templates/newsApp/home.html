@@ -30,22 +30,23 @@
     {% endfor %}
 </div>
 
-<div class="mt-5">
-    <h4>Top Stories Test</h4>
+<div class="category-block mb-5">
 
-    {% for story in top_stories %}
-        <p>
-            <a href="{% url 'article_detail' story.slug %}">
-                {{ story.title }}
-            </a>
-        </p>
-    {% empty %}
-        <p>No top stories found.</p>
+    {% for category, articles in categories_articles.items %}
+
+        <h3>{{ category }}</h3>
+
+        {% for article in articles %}
+
+            <p>
+                <a href="{% url 'article_detail' article.slug %}">
+                    {{ article.title }}
+                </a>
+            </p>
+
+        {% endfor %}
+
     {% endfor %}
+
 </div>
 
-<h3>Category Debug</h3>
-
-<p>Politics count: {{ categories_articles.Politics|length }}</p>
-<p>Sports count: {{ categories_articles.Sports|length }}</p>
-<p>Entertainment count: {{ categories_articles.Entertainment|length }}</p>
