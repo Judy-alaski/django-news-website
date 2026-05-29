@@ -2,11 +2,21 @@
 
 <div class="container mt-4">
 
-    <h2>Lead Article Test</h2>
-
     {% with article=lead_articles.0 %}
         {% if article %}
-            <h3>{{ article.title }}</h3>
+
+            {% if article.image %}
+                <img src="{{ article.image.url }}"
+                     alt="{{ article.title }}"
+                     class="img-fluid">
+            {% endif %}
+
+            <h2>
+                <a href="{% url 'article_detail' article.slug %}">
+                    {{ article.title }}
+                </a>
+            </h2>
+
         {% else %}
             <p>No lead article available</p>
         {% endif %}
