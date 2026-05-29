@@ -2,21 +2,11 @@
 
 <div class="container mt-4">
 
+    <h2>Lead Article Test</h2>
+
     {% with article=lead_articles.0 %}
         {% if article %}
-
-            {% if article.image %}
-                <img src="{{ article.image.url }}"
-                     alt="{{ article.title }}"
-                     class="img-fluid">
-            {% endif %}
-
-            <h2>
-                <a href="{% url 'article_detail' article.slug %}">
-                    {{ article.title }}
-                </a>
-            </h2>
-
+            <h3>{{ article.title }}</h3>
         {% else %}
             <p>No lead article available</p>
         {% endif %}
@@ -25,3 +15,17 @@
 </div>
 
 {% endblock %}
+
+<div class="mt-5">
+    <h4>Trending Test</h4>
+
+    {% for article in trending_articles %}
+        <p>
+            <a href="{% url 'article_detail' article.slug %}">
+                {{ article.title }}
+            </a>
+        </p>
+    {% empty %}
+        <p>No trending articles.</p>
+    {% endfor %}
+</div>
