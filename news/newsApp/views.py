@@ -27,38 +27,48 @@ from .models import Article, Category
 def home(request):
     all_articles = Article.objects.all().order_by('-published_date')
 
-    breaking_news = all_articles.filter(is_breaking=True)[:10]
-    top_stories = all_articles[:8]
-    lead_articles = Article.objects.filter(published_date__lte=now()).exclude(image='').order_by('-published_date')[:1]
+    # Breaking News
+    breaking_news = all_articles.filter(
+        is_breaking=True
+    )[:10]
 
-    # Paginate only top stories
-    paginator = Paginator(all_articles, 6)  # Show 6 per page
+    # Lead Story
+    lead_articles = Article.objects.filter(
+        published_date__lte=now()
+    ).exclude(
+        image=''
+    ).order_by(
+        '-published_date'
+    )[:1]
+
+    # Paginated Top Stories
+    paginator = Paginator(all_articles, 6)
+
     page_number = request.GET.get('page')
+
     top_stories = paginator.get_page(page_number)
 
-    recent_articles = all_articles[:10]
+    # Trending Sidebar
     trending_articles = all_articles[:6]
 
-    # Filter articles by category
-    politics_articles = all_articles.filter(category__name="Politics")[:5]
-    sports_articles = all_articles.filter(category__name="Sports")[:5]
-    entertainment_articles = all_articles.filter(category__name="Entertainment")[:5]
+    # Recent Articles
+    recent_articles = all_articles[:10]
 
+    # Categories for Navbar
     categories = Category.objects.all()
 
-    return render(request, 'newsApp/home.html', {
-        'breaking_news': breaking_news,
-        'top_stories': top_stories,
-        'lead_articles': lead_articles,
-        'recent_articles': recent_articles,
-        'trending_articles': trending_articles,
-        'categories_articles': {
-            "Politics": politics_articles,
-            "Sports": sports_articles,
-            "Entertainment": entertainment_articles,
-        },
-        'categories': categories,
-    })
+    return render(
+        request,
+        'newsApp/home.html',
+        {
+            'breaking_news': breaking_news,
+            'lead_articles': lead_articles,
+            'top_stories': top_stories,
+            'trending_articles': trending_articles,
+            'recent_articles': recent_articles,
+            'categories': categories,
+        }
+    )
 
 def category_articles(request, category_name):
     category = get_object_or_404(Category, name=category_name)

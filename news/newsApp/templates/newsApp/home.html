@@ -148,34 +148,6 @@
         </div>
     </div>
 
-    <!-- Category-Based Sections -->
-    {% for category, articles in categories_articles.items %}
-    <div class="category-block mb-5">
-        <h4 class="fw-bold border-bottom pb-2">{{ category }}</h4>
-        <div class="row">
-
-            {% for article in articles %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-
-                    {% if article.image %}
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
-                    {% else %}
-                    <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-                    
-                    <div class="card-body">
-                        <h6 class="card-title">
-                            <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">{{ article.title }}</a>
-                        </h6>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-
 <script>
     const loadMoreBtn = document.getElementById('load-more');
     if (loadMoreBtn) {
