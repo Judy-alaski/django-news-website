@@ -39,29 +39,34 @@
     <a href="{% url 'home' %}" class="btn btn-outline-secondary">← Back to Home</a>
 </div>
 
-<div class="social-share mt-4">
-
-    <h5>Share This Article</h5>
-
-    <a target="_blank"
-       href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
-       Facebook
-    </a>
-
-    |
-
-    <a target="_blank"
-       href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}">
-       Twitter
-    </a>
-
-    |
-
-    <a target="_blank"
-       href="https://wa.me/?text={{ request.build_absolute_uri }}">
-       WhatsApp
-    </a>
-
+<div class="mt-4">
+    <h5 class="mb-3">Share this article:</h5>
+    <div class="d-flex gap-3">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+           target="_blank" 
+           class="btn btn-outline-primary d-flex align-items-center justify-content-center share-icon"
+           title="Share on Facebook">
+           <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.title }}" 
+           target="_blank" 
+           class="btn btn-outline-info d-flex align-items-center justify-content-center share-icon"
+           title="Share on X">
+           <i class="fa-brands fa-square-x-twitter"></i>
+        </a>
+        <a href="https://api.whatsapp.com/send?text={{ article.title }} {{ request.build_absolute_uri }}" 
+           target="_blank" 
+           class="btn btn-outline-success d-flex align-items-center justify-content-center share-icon"
+           title="Share on WhatsApp">
+           <i class="fa-brands fa-square-whatsapp"></i>
+        </a>
+        <a href="https://pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}&description={{ article.title }}" 
+           target="_blank" 
+           class="btn btn-outline-danger d-flex align-items-center justify-content-center share-icon"
+           title="Share on Pinterest">
+           <i class="fa-brands fa-square-pinterest"></i>
+        </a>
+    </div>
 </div>
 
 {% endblock %}
