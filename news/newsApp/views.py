@@ -81,28 +81,32 @@ def category_articles(request, category_name):
 
 def article_detail(request, slug):
 
-    current_article = get_object_or_404(
+    article = get_object_or_404(
         Article,
         slug=slug
     )
 
-    # increase views
-    current_article.views += 1
-    current_article.save()
+    # Increase views
+    article.views += 1
+    article.save()
 
-    # related articles
+    # Related Articles (same category)
     related_articles = Article.objects.filter(
-        category=current_article.category
+        category=article.category
     ).exclude(
-        id=current_article.id
-    ).order_by('-published_date')[:4]
+        id=article.id
+    ).order_by(
+        '-published_date'
+    )[:4]
 
-    return render(request, 'newsApp/article_detail.html', {
-
-        'article': current_article,
-
-        'related_articles': related_articles,
-    })
+    return render(
+        request,
+        'newsApp/article_detail.html',
+        {
+            'article': article,
+            'related_articles': related_articles,
+        }
+    )
 
 def redirect_old_article(request, id):
     article = get_object_or_404(Article, id=id)

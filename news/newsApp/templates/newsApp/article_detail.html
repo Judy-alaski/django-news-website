@@ -69,4 +69,49 @@
     </div>
 </div>
 
+<hr class="my-5">
+
+<h3 class="mb-4">Related Articles</h3>
+
+<div class="row">
+
+    {% for related in related_articles %}
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card h-100 shadow-sm">
+
+            {% if related.image %}
+                <img src="{{ related.image.url }}"
+                     class="card-img-top"
+                     alt="{{ related.title }}"
+                     style="height:180px;object-fit:cover;">
+            {% endif %}
+
+            <div class="card-body">
+
+                <h6 class="card-title">
+
+                    <a href="{% url 'article_detail' related.slug %}"
+                       class="text-decoration-none text-dark">
+
+                        {{ related.title }}
+
+                    </a>
+
+                </h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <p>No related articles available.</p>
+
+    {% endfor %}
+
+</div>
 {% endblock %}
