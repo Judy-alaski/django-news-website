@@ -1,15 +1,17 @@
 {% block content %}
 
-<div class="container mt-5">
-    <h1>TEST PAGE</h1>
+<div class="container mt-4">
 
-    <p>Total Articles: {{ recent_articles|length }}</p>
+    <h2>Lead Article Test</h2>
 
-    {% for article in recent_articles %}
-        <h4>{{ article.title }}</h4>
-    {% empty %}
-        <p>No articles found.</p>
-    {% endfor %}
+    {% with article=lead_articles.0 %}
+        {% if article %}
+            <h3>{{ article.title }}</h3>
+        {% else %}
+            <p>No lead article available</p>
+        {% endif %}
+    {% endwith %}
+
 </div>
 
 {% endblock %}
