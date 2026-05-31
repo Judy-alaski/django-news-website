@@ -39,20 +39,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.getenv("DEBUG", "False") == "True"
-DEBUG = True 
+DEBUG = os.getenv("DEBUG", "False") == "True"
+#DEBUG = True 
 
 ALLOWED_HOSTS = [
     "urbannews.com.ng",
     "www.urbannews.com.ng",
-    "urbannews-xz7c.onrender.com",
+    ".onrender.com",
 ]
-
-#ALLOWED_HOSTS = [
-    #'127.0.0.1',
-    #'localhost',
-    #'urbannews-xz7c.onrender.com',
-#]
 
 #ALLOWED_HOSTS = ['*']
 
@@ -107,15 +101,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'news.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-#DATABASES = {
-    #'default': dj_database_url.config(
-        #default=os.environ.get("DATABASE_URL")
-    #)
-#}
-
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
@@ -154,27 +139,6 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 
-#DATABASES = {
-    #'default': dj_database_url.config(
-        #default=os.getenv('DATABASE_URL', 'postgresql://postgres:Elevi_123456#@localhost:5432/newsdb')
-    #)
-#}
-
-#DEBUG = os.getenv("DEBUG", "0") == "True"
-#SECRET_KEY = os.getenv("SECRET_KEY")
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.postgres',
-        #'NAME': os.getenv('DB_NAME'),
-        #'USER': os.getenv('DB_USER'),
-        #'PASSWORD': os.getenv('DB_PASSWORD'),
-        #'HOST': os.getenv('DB_HOST'),
-        #'PORT': os.getenv('DB_PORT'),
-        #'OPTIONS': {
-            #'charset': 'utf8mb4',
-        #},
-    #}
-#}
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -188,19 +152,6 @@ CKEDITOR_CONFIGS = {
         'allowedContent': True,  # Ensure CKEditor does not filter out HTML
     },
 }
-
-
-#CKEDITOR_CONFIGS = {
-    #'default': {
-        #'toolbar': 'full',  # Full toolbar for rich formatting
-        #'extraAllowedContent': 'img[*];h2[*];p[*];strong[*];span[*]',  # Allow specific tags
-        #'removePlugins': 'stylesheetparser',  # Prevent excessive inline styles
-        #'format_tags': 'h1;h2;h3;p;pre',  # Restrict to specific formats
-        #'height': 300,  # Editor height
-        #'width': '100%',
-        #'extraPlugins': ','.join(['image2']),
-    #},
-#}
 
 
 # Password validation
@@ -237,17 +188,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-#STATIC_URL = 'static/'
-#MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 CKEDITOR_UPLOAD_PATH = "uploads/"  # Path where uploaded images will be stored
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#STATIC_ROOT = BASE_DIR / 'staticfiles'
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -257,7 +202,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://urbannews-xz7c.onrender.com',
+    "https://urbannews.com.ng",
+    "https://www.urbannews.com.ng",
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
