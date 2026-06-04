@@ -6,6 +6,11 @@
         Articles in {{ category.name }}
     </h1>
 
+    <p>Total Articles: {{ articles.paginator.count }}</p>
+    <p>Total Pages: {{ articles.paginator.num_pages }}</p>
+    <p>Current Page: {{ articles.number }}</p>
+    <p>Has Next: {{ articles.has_next }}</p>
+
     {% if articles %}
         <div class="row">
 
