@@ -174,7 +174,7 @@ def trending_articles_view(request):
     for category in categories:
         articles = Article.objects.filter(
             category=category
-        ).order_by('-published_date')[:12] 
+        ).order_by('-published_date')[:8] 
         if articles.exists():
             trending_by_category[category.name] = articles
 

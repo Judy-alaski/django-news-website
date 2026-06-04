@@ -2,38 +2,94 @@
 {% load static %}
 
 {% block content %}
+
 <div class="container mt-4">
-    <h3 class="mb-4">Trending News</h3>
+
+    <h2 class="text-center mb-5">
+        Trending News
+    </h2>
 
     {% for category, articles in trending_by_category.items %}
+
     <div class="mb-5">
-        <div class="category-separator">
+
+        <!-- Category Header -->
+        <div class="category-separator mb-4">
             <hr>
-            <div class="category-label">{{ category|upper }}</div>
+            <h3 class="text-center fw-bold">
+                {{ category|upper }}
+            </h3>
             <hr>
         </div>
 
+        <!-- Articles Grid -->
         <div class="row">
+
             {% for article in articles %}
-            <div class="col-md-4 mb-3">
-                <div class="card h-100">
+
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+                <div class="card h-100 shadow-sm border-0">
+
                     {% if article.image %}
-                    <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                        <img src="{{ article.image.url }}"
+                             class="card-img-top"
+                             alt="{{ article.title }}"
+                             style="height:220px; object-fit:cover;">
                     {% else %}
-                    <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Default Image">
+                        <img src="{% static 'images/default.jpg' %}"
+                             class="card-img-top"
+                             alt="Default Image"
+                             style="height:220px; object-fit:cover;">
                     {% endif %}
+
                     <div class="card-body">
+
                         <h6 class="card-title">
-                            <a href="{% url 'article_detail' article.slug %}" class="text-dark text-decoration-none">
+
+                            <a href="{% url 'article_detail' article.slug %}"
+                               class="text-decoration-none text-dark">
+
                                 {{ article.title }}
+
                             </a>
+
                         </h6>
+
                     </div>
+
                 </div>
+
             </div>
+
             {% endfor %}
+
         </div>
+
+        <!-- View More Button -->
+        <div class="text-center mt-3">
+
+            <a href="{% url 'category_articles' category %}"
+               class="btn btn-outline-primary">
+
+                View More {{ category }}
+
+            </a>
+
+        </div>
+
     </div>
+
+    {% empty %}
+
+    <div class="alert alert-info">
+
+        No trending articles available.
+
+    </div>
+
     {% endfor %}
+
 </div>
+
 {% endblock %}
