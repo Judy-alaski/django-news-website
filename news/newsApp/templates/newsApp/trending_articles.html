@@ -12,14 +12,15 @@
     <div class="mb-5">
 
         <!-- Category Header -->
-        <div class="category-separator mb-4">
-            <hr>
-            <h3 class="text-center fw-italic">
-                {{ category|upper }}
-            </h3>
-            <hr>
+        {% for category, articles in trending_by_category.items %}
+        <div class="mb-5">
+            <div class="category-separator">
+                <hr>
+                <div class="category-label">{{ category|upper }}</div>
+                <hr>
+            </div>
         </div>
-
+        
         <!-- Articles Grid -->
         <div class="row">
 
