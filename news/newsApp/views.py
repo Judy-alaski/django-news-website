@@ -71,12 +71,45 @@ def home(request):
     )
 
 def category_articles(request, category_name):
-    category = get_object_or_404(Category, name=category_name)
-    articles = Article.objects.filter(category=category).order_by('-published_date')
-    return render(request, 'newsApp/category_articles.html', {
-        'category': category,
-        'articles': articles,
-    })
+
+    category = get_object_or_404(
+        Category,
+        name=category_name
+    )
+
+    articles = Article.objects.filter(
+        category=category
+    ).order_by(
+        '-published_date'
+    )
+
+    paginator = Paginator(
+        articles,
+        8
+    )
+
+    page_number = request.GET.get('page')
+
+    articles = paginator.get_page(
+        page_number
+    )
+
+    return render(
+        request,
+        'newsApp/category_articles.html',
+        {
+            'category': category,
+            'articles': articles,
+        }
+    )
+
+#def category_articles(request, category_name):
+    #category = get_object_or_404(Category, name=category_name)
+    #articles = Article.objects.filter(category=category).order_by('-published_date')
+    #return render(request, 'newsApp/category_articles.html', {
+        #'category': category,
+        #'articles': articles,
+    #})
 
 
 def article_detail(request, slug):
@@ -182,19 +215,6 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-#def search_articles(request):
-
-    #query = request.GET.get('q')
-
-    #results = Article.objects.filter(
-        #Q(title__icontains=query) |
-        #Q(content__icontains=query)
-    #).distinct()
-
-    #return render(request, 'newsApp/search_results.html', {
-        #'query': query,
-        #'results': results
-    #})
 
 def search_view(request):
     query = request.GET.get('q', '') 
@@ -210,19 +230,6 @@ def search_view(request):
         'results': results,
     }
     return render(request, 'newsApp/search_results.html', context)
-
-#def newsletter_signup(request):
-    #if request.method == 'POST':
-        #email = request.POST.get('email')
-
-        #if email:
-
-            #NewsletterSubscriber.objects.get_or_create(
-                #email=email
-            #)
-            #messages.success(request, "Subscription successful!")
-
-    #return redirect('/')
 
 
 @login_required
