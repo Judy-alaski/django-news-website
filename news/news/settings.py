@@ -190,6 +190,7 @@ USE_TZ = True
 
 CKEDITOR_UPLOAD_PATH = "uploads/"  # Path where uploaded images will be stored
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
