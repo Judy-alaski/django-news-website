@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="canonical" href="https://www.urbannews.com.ng{{ request.path }}">
-    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <meta name="description" content="Latest breaking news, politics, sports, entertainment and lifestyle updates.">
     <meta name="keywords" content="news, politics, sports, entertainment, lifestyle">
     <meta name="author" content="UrbanNews">
@@ -25,6 +23,9 @@
     <meta property="og:image" content="https://www.urbannews.com.ng/static/images/logo.png">
     <meta name="google-site-verification" content="PlOoz0cAyyL3tQWtO6h2CGxpKEQU-YTytrkE8x2AbBo" />
     <meta name="google-site-verification" content="dwrWIONXCNOiPtDMaG3s1QvbFditVKFfY2ph0CnB9DA" />
+    <script>
+            window.CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/';
+    </script>
 </head>
 <body>
     
