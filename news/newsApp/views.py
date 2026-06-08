@@ -215,7 +215,7 @@ def mobile_article_upload(request):
 
     return render(
         request,
-        'mobile_article_upload.html',
+        'newsApp/mobile_article_upload.html',
         {'form': form}
     )
 
