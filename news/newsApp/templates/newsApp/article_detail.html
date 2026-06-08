@@ -32,6 +32,15 @@
         <small><strong>Category:</strong> {{ article.category.name }}</small>
     </div>
 
+    {% if article.image %}
+    <div class="mb-4 text-center">
+        <img src="{{ article.image.url }}"
+        alt="{{ article.title }}"
+        class="img-fluid rounded shadow-sm"
+        style="max-width:100%; height:auto;">
+    </div>
+    {% endif %}
+    
     <div class="article-content mb-4">
         {{ article.content|safe }}
     </div>
