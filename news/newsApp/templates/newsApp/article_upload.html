@@ -6,40 +6,7 @@
 
     <h2 class="mb-4">Upload Article</h2>
 
-    <div class="alert alert-info">
-        Drafts are automatically saved while you type.
-    </div>
-
-    <div class="mobile-toolbar mb-3">
-        <button type="button" class="btn btn-sm btn-secondary"
-            onclick="insertTag('<h2>', '</h2>')">
-            H2
-        </button>
-
-        <button type="button" class="btn btn-sm btn-secondary"
-            onclick="insertTag('<strong>', '</strong>')">
-            Bold
-        </button>
-
-        <button type="button" class="btn btn-sm btn-secondary"
-            onclick="insertTag('<em>', '</em>')">
-            Italic
-        </button>
-
-        <button type="button" class="btn btn-sm btn-secondary"
-            onclick="insertTag('<blockquote>', '</blockquote>')">
-            Quote
-        </button>
-
-        <button type="button" class="btn btn-sm btn-secondary"
-            onclick="insertTag('<ul><li>', '</li></ul>')">
-            List
-        </button>
-    </div>
-
-    <form method="POST"
-          enctype="multipart/form-data"
-          onsubmit="clearDraft()">
+    <form method="POST" enctype="multipart/form-data">
 
         {% csrf_token %}
 
@@ -53,10 +20,6 @@
         <div class="mb-3">
             {{ form.content.label_tag }}
             {{ form.content }}
-        </div>
-
-        <div class="mb-3">
-            Words: <span id="word-count">0</span>
         </div>
 
         <div class="mb-3">
@@ -81,53 +44,5 @@
     </form>
 
 </div>
-
-<script>
-document.addEventListener('input', function(e) {
-
-    if (e.target.id === 'id_content') {
-
-        let words = e.target.value
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean)
-            .length;
-
-        let counter = document.getElementById('word-count');
-
-        if (counter) {
-            counter.innerText = words;
-        }
-    }
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-
-    let textarea = document.getElementById('id_content');
-
-    if (!textarea) return;
-
-    textarea.value =
-        localStorage.getItem('urbannews_draft') || '';
-
-    textarea.addEventListener('input', function() {
-
-        localStorage.setItem(
-            'urbannews_draft',
-            textarea.value
-        );
-
-    });
-
-});
-</script>
-
-<script>
-function clearDraft() {
-    localStorage.removeItem('urbannews_draft');
-}
-</script>
 
 {% endblock %}

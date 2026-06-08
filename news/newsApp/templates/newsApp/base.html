@@ -72,6 +72,9 @@
 
                     {% if user.is_authenticated %}
                     <a class="btn btn-success ms-3 d-inline-block" href="{% url 'add_article' %}">Add Article</a>
+                    <a class="btn btn-warning ms-2" href="{% url 'mobile_add_article' %}">
+                        Mobile Editor
+                    </a>
                     {% endif %}
                 </div>
             </div>

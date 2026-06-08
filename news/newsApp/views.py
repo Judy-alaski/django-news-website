@@ -199,6 +199,26 @@ def login_view(request):
         form = LoginForm()        
     return render(request, 'newsApp/login.html') 
 
+def mobile_article_upload(request):
+
+    if request.method == 'POST':
+        form = MobileArticleForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+            form.save()
+
+    else:
+        form = MobileArticleForm()
+
+    return render(
+        request,
+        'mobile_article_upload.html',
+        {'form': form}
+    )
+
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
