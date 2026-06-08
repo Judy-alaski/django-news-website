@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 from django.urls import reverse
+from django.utils.html import escape
 from django.http import HttpResponseRedirect
 from .forms import CategoryForm, ArticleForm, MobileArticleForm
 from .models import Category, Article
@@ -208,7 +209,24 @@ def mobile_article_upload(request):
         )
 
         if form.is_valid():
-            form.save()
+
+            article = form.save(commit=False)
+
+            # Convert paragraphs into HTML paragraphs
+            paragraphs = article.content.split('\n\n')
+
+            article.content = ''.join(
+                f'<p>{escape(p.strip())}</p>'
+                for p in paragraphs
+                if p.strip()
+            )
+
+            article.save()
+
+            return redirect(
+                'article_detail',
+                slug=article.slug
+            )
 
     else:
         form = MobileArticleForm()
@@ -218,6 +236,26 @@ def mobile_article_upload(request):
         'newsApp/mobile_article_upload.html',
         {'form': form}
     )
+
+#def mobile_article_upload(request):
+
+    #if request.method == 'POST':
+        #form = MobileArticleForm(
+            #request.POST,
+            #request.FILES
+        #)
+
+        #if form.is_valid():
+            #form.save()
+
+    #else:
+        #form = MobileArticleForm()
+
+    #return render(
+        #request,
+        #'newsApp/mobile_article_upload.html',
+        #{'form': form}
+    #)
 
 def signup(request):
     if request.method == 'POST':
