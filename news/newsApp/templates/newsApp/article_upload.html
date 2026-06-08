@@ -6,9 +6,8 @@
 
     <h2 class="mb-4">Upload Article</h2>
 
-    {% if request.user_agent.is_mobile %}
     <div class="alert alert-info">
-        Mobile editing mode enabled for easier copy, paste and text selection.
+        Drafts are automatically saved while you type.
     </div>
 
     <div class="mobile-toolbar mb-3">
@@ -37,9 +36,10 @@
             List
         </button>
     </div>
-    {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST"
+          enctype="multipart/form-data"
+          onsubmit="clearDraft()">
 
         {% csrf_token %}
 
@@ -55,11 +55,9 @@
             {{ form.content }}
         </div>
 
-        {% if request.user_agent.is_mobile %}
         <div class="mb-3">
             Words: <span id="word-count">0</span>
         </div>
-        {% endif %}
 
         <div class="mb-3">
             {{ form.category.label_tag }}
@@ -105,18 +103,16 @@ document.addEventListener('input', function(e) {
 </script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function(){
+    let textarea = document.getElementById('id_content');
 
-    let textarea =
-        document.getElementById('id_content');
-
-    if(!textarea) return;
+    if (!textarea) return;
 
     textarea.value =
         localStorage.getItem('urbannews_draft') || '';
 
-    textarea.addEventListener('input', function(){
+    textarea.addEventListener('input', function() {
 
         localStorage.setItem(
             'urbannews_draft',
@@ -126,6 +122,12 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
 });
+</script>
+
+<script>
+function clearDraft() {
+    localStorage.removeItem('urbannews_draft');
+}
 </script>
 
 {% endblock %}

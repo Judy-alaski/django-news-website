@@ -146,32 +146,15 @@ def redirect_old_article(request, id):
 
     return redirect('article_detail', slug=article.slug)    
 
+
 def article_upload(request):
-
-    if request.user_agent.is_mobile:
-        FormClass = MobileArticleForm
-    else:
-        FormClass = ArticleForm
-
-    if request.method == 'POST':
-        form = FormClass(request.POST, request.FILES)
+    if request.method == 'POST' and request.FILES:
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
     else:
-        form = FormClass()
-
-    return render(request, 'article_upload.html', {
-        'form': form
-    })
-
-#def article_upload(request):
-    #if request.method == 'POST' and request.FILES:
-        #form = ArticleForm(request.POST, request.FILES)
-        #if form.is_valid():
-            #form.save()
-    #else:
-        #form = ArticleForm()
-    #return render(request, 'article_upload.html', {'form': form})
+        form = ArticleForm()
+    return render(request, 'article_upload.html', {'form': form})
 
 def load_more_articles(request):
     page = request.GET.get('page')

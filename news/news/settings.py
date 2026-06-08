@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'newsApp',
     'ckeditor',
     'ckeditor_uploader',
-    'django_user_agents',
     'django.contrib.sitemaps',
     'cloudinary',
     'cloudinary_storage',
@@ -78,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'news.urls'
