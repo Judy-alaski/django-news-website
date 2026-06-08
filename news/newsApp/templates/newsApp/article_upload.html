@@ -1,9 +1,43 @@
 {% extends "newsApp/base.html" %}
+
 {% block content %}
-<h2>Upload Article</h2>
+
 <div class="container mt-4">
 
-    <h2>Upload Article</h2>
+    <h2 class="mb-4">Upload Article</h2>
+
+    {% if request.user_agent.is_mobile %}
+    <div class="alert alert-info">
+        Mobile editing mode enabled for easier copy, paste and text selection.
+    </div>
+
+    <div class="mobile-toolbar mb-3">
+        <button type="button" class="btn btn-sm btn-secondary"
+            onclick="insertTag('<h2>', '</h2>')">
+            H2
+        </button>
+
+        <button type="button" class="btn btn-sm btn-secondary"
+            onclick="insertTag('<strong>', '</strong>')">
+            Bold
+        </button>
+
+        <button type="button" class="btn btn-sm btn-secondary"
+            onclick="insertTag('<em>', '</em>')">
+            Italic
+        </button>
+
+        <button type="button" class="btn btn-sm btn-secondary"
+            onclick="insertTag('<blockquote>', '</blockquote>')">
+            Quote
+        </button>
+
+        <button type="button" class="btn btn-sm btn-secondary"
+            onclick="insertTag('<ul><li>', '</li></ul>')">
+            List
+        </button>
+    </div>
+    {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
 
@@ -11,20 +45,87 @@
 
         {{ form.media }}
 
-        {{ form.as_p }}
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.content.label_tag }}
+            {{ form.content }}
+        </div>
+
+        {% if request.user_agent.is_mobile %}
+        <div class="mb-3">
+            Words: <span id="word-count">0</span>
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            {{ form.category.label_tag }}
+            {{ form.category }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.author.label_tag }}
+            {{ form.author }}
+        </div>
 
         <button type="submit" class="btn btn-primary">
-            Upload
+            Upload Article
         </button>
 
     </form>
 
 </div>
-{% endblock %}
 
-<!--<h2>Upload Article</h2>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Upload</button>
-</form>-->
+<script>
+document.addEventListener('input', function(e) {
+
+    if (e.target.id === 'id_content') {
+
+        let words = e.target.value
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .length;
+
+        let counter = document.getElementById('word-count');
+
+        if (counter) {
+            counter.innerText = words;
+        }
+    }
+});
+</script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    let textarea =
+        document.getElementById('id_content');
+
+    if(!textarea) return;
+
+    textarea.value =
+        localStorage.getItem('urbannews_draft') || '';
+
+    textarea.addEventListener('input', function(){
+
+        localStorage.setItem(
+            'urbannews_draft',
+            textarea.value
+        );
+
+    });
+
+});
+</script>
+
+{% endblock %}

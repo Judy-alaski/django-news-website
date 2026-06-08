@@ -27,3 +27,20 @@ class SignupForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class MobileArticleForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control mobile-editor',
+                'rows': 30,
+                'placeholder': 'Write or paste your article here...',
+                'spellcheck': 'true',
+                'autocomplete': 'off',
+            }
+        )
+    )
+
+    class Meta:
+        model = Article
+        fields = ['title', 'content', 'category', 'image', 'author']

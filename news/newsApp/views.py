@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.timezone import now
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from .forms import CategoryForm, ArticleForm
+from .forms import CategoryForm, ArticleForm, MobileArticleForm
 from .models import Category, Article
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -147,13 +147,31 @@ def redirect_old_article(request, id):
     return redirect('article_detail', slug=article.slug)    
 
 def article_upload(request):
-    if request.method == 'POST' and request.FILES:
-        form = ArticleForm(request.POST, request.FILES)
+
+    if request.user_agent.is_mobile:
+        FormClass = MobileArticleForm
+    else:
+        FormClass = ArticleForm
+
+    if request.method == 'POST':
+        form = FormClass(request.POST, request.FILES)
         if form.is_valid():
             form.save()
     else:
-        form = ArticleForm()
-    return render(request, 'article_upload.html', {'form': form})
+        form = FormClass()
+
+    return render(request, 'article_upload.html', {
+        'form': form
+    })
+
+#def article_upload(request):
+    #if request.method == 'POST' and request.FILES:
+        #form = ArticleForm(request.POST, request.FILES)
+        #if form.is_valid():
+            #form.save()
+    #else:
+        #form = ArticleForm()
+    #return render(request, 'article_upload.html', {'form': form})
 
 def load_more_articles(request):
     page = request.GET.get('page')
