@@ -21,7 +21,6 @@ from .models import NewsletterSubscriber
 from .forms import LoginForm
 from django.contrib.auth import logout
 from django.contrib.admin.views.decorators import staff_member_required
-
 from django.shortcuts import render
 from .models import Article, Category
 
@@ -203,6 +202,7 @@ def login_view(request):
 def mobile_article_upload(request):
 
     if request.method == 'POST':
+
         form = MobileArticleForm(
             request.POST,
             request.FILES
@@ -212,13 +212,19 @@ def mobile_article_upload(request):
 
             article = form.save(commit=False)
 
-            # Convert paragraphs into HTML paragraphs
-            paragraphs = article.content.split('\n\n')
+            # Normalize Android and Windows line breaks
+            content = article.content.replace('\r\n', '\n')
+
+            # Create a paragraph for every non-empty line
+            paragraphs = [
+                p.strip()
+                for p in content.split('\n')
+                if p.strip()
+            ]
 
             article.content = ''.join(
-                f'<p>{escape(p.strip())}</p>'
+                f'<p>{escape(p)}</p>'
                 for p in paragraphs
-                if p.strip()
             )
 
             article.save()
@@ -229,12 +235,15 @@ def mobile_article_upload(request):
             )
 
     else:
+
         form = MobileArticleForm()
 
     return render(
         request,
         'newsApp/mobile_article_upload.html',
-        {'form': form}
+        {
+            'form': form
+        }
     )
 
 #def mobile_article_upload(request):
