@@ -221,6 +221,8 @@ def mobile_article_upload(request):
                 if p.strip()
             )
 
+            print(repr(article.content))
+
             article.save()
 
             return redirect(
