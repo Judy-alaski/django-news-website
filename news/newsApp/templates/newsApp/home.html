@@ -21,9 +21,9 @@
             {% if article and article.slug %}
             <div class="position-relative mb-3">
                 {% if article.image %}
-                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 400px; object-fit: cover;">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100 rounded">
                 {% else %}
-                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 400px; object-fit: cover;">
+                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100 rounded">
                 {% endif %}
                 <div class="position-absolute bottom-0 p-3 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
                     <h2><a href="{% url 'article_detail' article.slug %}" class="text-white text-decoration-none">{{ article.title }}</a></h2>
