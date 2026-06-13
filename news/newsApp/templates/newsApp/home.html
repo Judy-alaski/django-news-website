@@ -71,9 +71,9 @@
             <div class="position-relative">
 
                 {% if article.image %}
-                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid w-100 rounded">
                 {% else %}
-                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100" style="height: 300px; object-fit: cover;">
+                <img src="{% static 'images/default.jpg' %}" alt="Default Image" class="img-fluid w-100 rounded">
                 {% endif %}
                 
                 <div class="position-absolute bottom-0 p-2 text-white" style="background: rgba(0,0,0,0.6); width: 100%;">
