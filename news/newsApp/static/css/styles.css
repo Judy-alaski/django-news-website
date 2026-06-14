@@ -139,12 +139,14 @@ h1, h2, h3 {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
+
 .card-img-top {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    max-height: 180px;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
 }
+
 .card-body {
     padding: 1rem;
 }
@@ -225,11 +227,11 @@ img {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
-    .card-img-top {
-        max-height: 140px;
-    }
-}
+/*@media (max-width: 768px) {*/
+    /*.card-img-top {*/
+        /*max-height: 140px;*/
+    /*}*/
+/*}*/
 
 /* ====================== NEWLY ADDED STYLES ====================== */
 
