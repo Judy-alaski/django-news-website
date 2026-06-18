@@ -8,6 +8,7 @@
     <title>Urban News</title>
     <script data-ad-client="ca-pub-9593388768935991" async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <link rel="icon"type="image/x-icon"href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -34,7 +35,15 @@
     <div class="bootstrap-scope">
         <nav class="navbar navbar-expand-lg bg-custom-grey navbar-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'home' %}">Urban News</a>
+                <a class="navbar-brand d-flex align-items-center"
+                    href="{% url 'home' %}">
+                    <img src="{% static 'images/urbannews_logo.png.png' %}"
+                    alt="Urban News"
+                    style="height:50px; width:auto;">
+                    <span class="ms-2 fw-bold text-white">
+                        Urban News
+                    </span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
