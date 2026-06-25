@@ -122,7 +122,7 @@ def article_detail(request, slug):
     view_key = f'viewed_{article.id}'
     if not request.session.get(view_key):
         article.views += 1
-        article.save()
+        article.save(update_fields=['views'])
         request.session[view_key] = True
 
     if request.method == "POST":
