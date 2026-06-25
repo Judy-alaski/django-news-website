@@ -124,4 +124,36 @@ function clearDraft() {
 }
 </script>
 
+<script>
+function insertTag(startTag, endTag) {
+
+    const textarea = document.getElementById("id_content");
+
+    if (!textarea) return;
+
+    textarea.focus();
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    const selectedText = textarea.value.substring(start, end);
+
+    const replacement =
+        startTag + selectedText + endTag;
+
+    textarea.setRangeText(
+        replacement,
+        start,
+        end,
+        "end"
+    );
+
+    // Save updated content
+    localStorage.setItem(
+        'urbannews_mobile_draft',
+        textarea.value
+    );
+}
+</script>
+
 {% endblock %}

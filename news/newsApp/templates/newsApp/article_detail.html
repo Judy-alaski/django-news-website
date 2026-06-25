@@ -27,9 +27,27 @@
     <h2 class="mb-4">{{ article.title }}</h2>
 
     <div class="mb-3 text-muted">
-        <small><strong>Published:</strong> {{ article.published_date|date:"F j, Y, g:i a" }}</small><br>
-        <small><strong>Author:</strong> {{ article.author }}</small><br>
-        <small><strong>Category:</strong> {{ article.category.name }}</small>
+        <small>
+            <strong>Published:</strong>
+            {{ article.published_date|date:"F j, Y, g:i a" }}
+        </small>
+        <br>
+        <small>
+            <strong>Author:</strong>
+            {{ article.author }}
+        </small>
+        <br>
+
+        <small>
+            <strong>Category:</strong>
+            {{ article.category.name }}
+        </small>
+        <br>
+
+        <small>
+            <i class="bi bi-eye-fill"></i>
+            {{ article.views }} views
+        </small>
     </div>
 
     {% if article.image %}
