@@ -65,6 +65,26 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'slug': self.slug})
     
+class Comment(models.Model):
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+
+    name = models.CharField(max_length=100)
+
+    email = models.EmailField(blank=True)
+
+    content = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    approved = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name    
+    
 class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
     date_subscribed = models.DateTimeField(auto_now_add=True)

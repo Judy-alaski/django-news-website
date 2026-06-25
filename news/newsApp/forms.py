@@ -1,5 +1,6 @@
 from django import forms
 from .models import Category, Article
+from .models import Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
@@ -27,6 +28,16 @@ class SignupForm(forms.ModelForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = [
+            'name',
+            'email',
+            'content'
+        ]    
 
 class MobileArticleForm(forms.ModelForm):
     content = forms.CharField(

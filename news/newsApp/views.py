@@ -14,7 +14,7 @@ from .models import Category, Article
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from .forms import SignupForm
+from .forms import SignupForm, CommentForm
 from .models import Author
 from django.http import HttpResponse
 from .models import NewsletterSubscriber
@@ -119,9 +119,25 @@ def article_detail(request, slug):
         slug=slug
     )
 
-    # Increase views
-    article.views += 1
-    article.save()
+    view_key = f'viewed_{article.id}'
+    if not request.session.get(view_key):
+        article.views += 1
+        article.save()
+        request.session[view_key] = True
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.save()
+
+            return redirect(
+                'article_detail',
+                slug=article.slug
+            )
+    else:
+        form = CommentForm()
 
     # Related Articles (same category)
     related_articles = Article.objects.filter(
@@ -138,6 +154,7 @@ def article_detail(request, slug):
         {
             'article': article,
             'related_articles': related_articles,
+            'form': form,
         }
     )
 

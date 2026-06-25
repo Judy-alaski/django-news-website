@@ -45,6 +45,15 @@
         {{ article.content|safe }}
     </div>
 
+    <div class="mt-4">
+        <strong>Tags:</strong>
+        {% for tag in article.tags.split %}
+        <span class="badge bg-secondary">
+            {{ tag }}
+        </span>
+        {% endfor %}
+    </div>
+
     <a href="{% url 'home' %}" class="btn btn-outline-secondary">← Back to Home</a>
 </div>
 
@@ -123,4 +132,49 @@
     {% endfor %}
 
 </div>
+
+<hr>
+<h4>
+    Comments
+    ({{ article.comments.count }})
+</h4>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit"
+            class="btn btn-primary">
+        Post Comment
+    </button>
+</form>
+
+<hr>
+{% for comment in article.comments.all %}
+
+<div class="mb-3 border-bottom pb-2">
+
+    <strong>
+        {{ comment.name }}
+    </strong>
+
+    <br>
+
+    <small>
+        {{ comment.created_at }}
+    </small>
+
+    <p>
+        {{ comment.content }}
+    </p>
+
+</div>
+
+{% empty %}
+
+<p>No comments yet.</p>
+
+{% endfor %}
+
 {% endblock %}
