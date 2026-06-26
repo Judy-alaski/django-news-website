@@ -314,6 +314,63 @@
 
     </div>
 
+    {% for reply in comment.replies.all %}
+
+    {% if reply.approved %}
+
+    <div class="ms-5 mt-3">
+
+        <div class="card bg-light border-0">
+
+            <div class="card-body">
+
+                <div class="d-flex">
+
+                    <div class="me-3">
+
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                             style="width:45px;height:45px;">
+
+                            {{ reply.name|first|upper }}
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ reply.name }}
+                        </strong>
+
+                        <br>
+
+                        <small class="text-muted">
+
+                            {{ reply.created_at|date:"F j, Y • g:i A" }}
+
+                        </small>
+
+                        <p class="mt-2 mb-0">
+
+                            {{ reply.content|linebreaks }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% endfor %}
+
     {% empty %}
 
     <div class="alert alert-light border">
