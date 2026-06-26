@@ -66,10 +66,19 @@ class Article(models.Model):
         return reverse('article_detail', kwargs={'slug': self.slug})
     
 class Comment(models.Model):
+
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
         related_name='comments'
+    )
+
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='replies'
     )
 
     name = models.CharField(max_length=100)
@@ -78,12 +87,17 @@ class Comment(models.Model):
 
     content = models.TextField()
 
+    approved = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
-    approved = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_at']
 
     def __str__(self):
-        return self.name    
+        return f'{self.name} - {self.article.title}' 
     
 class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
