@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from .forms import SignupForm, CommentForm
-from .models import Author
+from .models import Author, Comment
 from django.http import HttpResponse
 from .models import NewsletterSubscriber
 from .forms import LoginForm
@@ -103,15 +103,6 @@ def category_articles(request, category_name):
         }
     )
 
-#def category_articles(request, category_name):
-    #category = get_object_or_404(Category, name=category_name)
-    #articles = Article.objects.filter(category=category).order_by('-published_date')
-    #return render(request, 'newsApp/category_articles.html', {
-        #'category': category,
-        #'articles': articles,
-    #})
-
-
 def article_detail(request, slug):
 
     article = get_object_or_404(
@@ -119,34 +110,58 @@ def article_detail(request, slug):
         slug=slug
     )
 
+    # Count one view per visitor session
     view_key = f'viewed_{article.id}'
+
     if not request.session.get(view_key):
         article.views += 1
         article.save(update_fields=['views'])
         request.session[view_key] = True
 
+    # Handle new comment
     if request.method == "POST":
+
         form = CommentForm(request.POST)
+
         if form.is_valid():
+
             comment = form.save(commit=False)
+
             comment.article = article
+
+            # Check if this is a reply
+            parent_id = request.POST.get('parent_id')
+
+            if parent_id:
+                try:
+                    parent_comment = Comment.objects.get(id=parent_id)
+                    comment.parent = parent_comment
+                except Comment.DoesNotExist:
+                    pass
+
             comment.save()
 
             return redirect(
                 'article_detail',
                 slug=article.slug
             )
+
     else:
+
         form = CommentForm()
 
-    # Related Articles (same category)
+    # Only approved top-level comments
+    comments = article.comments.filter(
+        approved=True,
+        parent__isnull=True
+    ).order_by('-created_at')
+
+    # Related articles
     related_articles = Article.objects.filter(
         category=article.category
     ).exclude(
         id=article.id
-    ).order_by(
-        '-published_date'
-    )[:4]
+    ).order_by('-published_date')[:4]
 
     return render(
         request,
@@ -155,6 +170,7 @@ def article_detail(request, slug):
             'article': article,
             'related_articles': related_articles,
             'form': form,
+            'comments': comments,
         }
     )
 
