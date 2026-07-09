@@ -1,5 +1,7 @@
 {% extends "newsApp/base.html" %}
 
+{% load static %}
+
 {% block meta_tags %}
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ article.title }}">
@@ -182,7 +184,11 @@
                 Leave a Comment
             </h5>
 
-            <form method="POST">
+            <div id="comment-message"></div>
+            
+            <form id="comment-form"
+                method="POST"
+                action="{% url 'post_comment' article.slug %}">
 
                 {% csrf_token %}
 
@@ -399,27 +405,6 @@
 
 </div>
 
-<script>
-
-    function toggleReplyForm(commentId){
-        
-        let form =
-        document.getElementById(
-            'reply-form-' + commentId
-        );
-        
-        if(form.style.display === "none"){
-            
-            form.style.display = "block";
-        
-        }else{
-            
-            form.style.display = "none";
-
-        }
-
-    }
-
-</script>
+<script src="{% static 'js/comments.js' %}"></script>
 
 {% endblock %}

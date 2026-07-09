@@ -179,6 +179,53 @@ def article_detail(request, slug):
         }
     )
 
+def post_comment(request, slug):
+
+    if request.method != "POST":
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Invalid request."
+            },
+            status=400
+        )
+
+    article = get_object_or_404(
+        Article,
+        slug=slug
+    )
+
+    form = CommentForm(request.POST)
+
+    if form.is_valid():
+
+        comment = form.save(commit=False)
+
+        comment.article = article
+
+        comment.approved = False
+
+        comment.save()
+
+        return JsonResponse({
+
+            "success": True,
+
+            "message": (
+                "Thank you! Your comment has been "
+                "submitted and is awaiting approval."
+            )
+
+        })
+
+    return JsonResponse({
+
+        "success": False,
+
+        "errors": form.errors
+
+    }, status=400)
+
 def redirect_old_article(request, id):
     article = get_object_or_404(Article, id=id)
 
@@ -283,26 +330,6 @@ def mobile_article_upload(request):
             'form': form
         }
     )
-
-#def mobile_article_upload(request):
-
-    #if request.method == 'POST':
-        #form = MobileArticleForm(
-            #request.POST,
-            #request.FILES
-        #)
-
-        #if form.is_valid():
-            #form.save()
-
-    #else:
-        #form = MobileArticleForm()
-
-    #return render(
-        #request,
-        #'newsApp/mobile_article_upload.html',
-        #{'form': form}
-    #)
 
 def signup(request):
     if request.method == 'POST':

@@ -46,6 +46,8 @@ ALLOWED_HOSTS = [
     "urbannews.com.ng",
     "www.urbannews.com.ng",
     ".onrender.com",
+    "127.0.0.1",
+    "localhost",
 ]
 
 #ALLOWED_HOSTS = ['*']

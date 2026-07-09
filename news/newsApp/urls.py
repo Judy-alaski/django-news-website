@@ -37,4 +37,10 @@ urlpatterns = [
         views.mobile_article_upload,
         name='mobile_add_article'
     ),
+
+    path(
+        'article/<slug:slug>/comment/',
+        views.post_comment,
+        name='post_comment'
+    ),
 ]
