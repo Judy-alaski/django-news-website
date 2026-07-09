@@ -140,6 +140,11 @@ def article_detail(request, slug):
                     pass
 
             comment.save()
+            
+            messages.success(
+                request,
+                "Thank you! Your comment has been submitted and is awaiting approval."
+            )
 
             return redirect(
                 'article_detail',
