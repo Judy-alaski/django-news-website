@@ -68,14 +68,102 @@ if (commentForm) {
 
 }
 
+let activePlaceholder = null;
+
 function toggleReplyForm(commentId) {
 
-    const form = document.getElementById(`reply-form-${commentId}`);
+    const placeholder = document.getElementById(
+        `reply-placeholder-${commentId}`
+    );
 
-    if (form.style.display === "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
+    const template = document.getElementById(
+        "reply-form-template"
+    );
+
+    // Close the currently open reply form
+    if (activePlaceholder && activePlaceholder !== placeholder) {
+        activePlaceholder.innerHTML = "";
     }
+
+    // Toggle current reply form
+    if (placeholder.innerHTML.trim() !== "") {
+        placeholder.innerHTML = "";
+        activePlaceholder = null;
+        return;
+    }
+
+    placeholder.innerHTML = template.innerHTML;
+
+    placeholder.querySelector("#reply-parent-id").value = commentId;
+
+    activePlaceholder = placeholder;
+
+    attachReplyHandler();
+}
+
+function closeReplyForm() {
+
+    if (activePlaceholder) {
+
+        activePlaceholder.innerHTML = "";
+
+        activePlaceholder = null;
+
+    }
+
+}
+
+function attachReplyHandler() {
+
+    const replyForm = document.getElementById("reply-form");
+
+    if (!replyForm) return;
+
+    replyForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const formData = new FormData(replyForm);
+
+        fetch(commentForm.action, {
+
+            method: "POST",
+
+            headers: {
+                "X-CSRFToken":
+                    document.querySelector("[name=csrfmiddlewaretoken]").value
+            },
+
+            body: formData
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (data.success) {
+
+                alert(data.message);
+
+                replyForm.reset();
+
+                closeReplyForm();
+
+            } else {
+
+                alert("Please check your input.");
+
+            }
+
+        })
+
+        .catch(() => {
+
+            alert("Something went wrong.");
+
+        });
+
+    });
 
 }

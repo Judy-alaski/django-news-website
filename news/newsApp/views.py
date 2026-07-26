@@ -203,6 +203,24 @@ def post_comment(request, slug):
 
         comment.article = article
 
+        # Handle replies
+        parent_id = request.POST.get("parent_id")
+
+        if parent_id:
+
+            try:
+
+                parent_comment = article.comments.get(
+                    id=parent_id,
+                    parent__isnull=True
+                )
+
+                comment.parent = parent_comment
+
+            except Comment.DoesNotExist:
+
+                pass
+
         comment.approved = False
 
         comment.save()
@@ -212,8 +230,7 @@ def post_comment(request, slug):
             "success": True,
 
             "message": (
-                "Thank you! Your comment has been "
-                "submitted and is awaiting approval."
+                "Thank you! Your submission is awaiting approval."
             )
 
         })

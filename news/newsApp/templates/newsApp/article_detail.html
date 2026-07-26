@@ -285,45 +285,10 @@
                         </button>
 
                     </div>
-
-                    <div
-                        id="reply-form-{{ comment.id }}"
-                        class="mt-3"
-                        style="display:none;">
-
-                        <form method="POST">
-
-                            {% csrf_token %}
-
-                            <input
-                                type="hidden"
-                                name="parent_id"
-                                value="{{ comment.id }}">
-
-                            <div class="mb-2">
-                                {{ form.name }}
-                            </div>
-
-                            <div class="mb-2">
-                                {{ form.email }}
-                            </div>
-
-                            <div class="mb-2">
-                                {{ form.content }}
-                            </div>
-
-                            <button
-                                type="submit"
-                                class="btn btn-primary btn-sm">
-
-                                Post Reply
-
-                            </button>
-
-                        </form>
-
-                    </div>
-
+                    
+                    <div id="reply-placeholder-{{ comment.id }}" class="mt-3"></div>
+                
+    
                 </div>
 
             </div>
@@ -402,6 +367,50 @@
     </div>
 
     {% endfor %}
+
+</div>
+
+<div id="reply-form-template" style="display:none;">
+
+    <form id="reply-form">
+
+        {% csrf_token %}
+
+        <input
+            type="hidden"
+            id="reply-parent-id"
+            name="parent_id">
+
+        <div class="mb-2">
+            {{ form.name }}
+        </div>
+
+        <div class="mb-2">
+            {{ form.email }}
+        </div>
+
+        <div class="mb-2">
+            {{ form.content }}
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-sm">
+
+            Post Reply
+
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-secondary btn-sm ms-2"
+            onclick="closeReplyForm()">
+
+            Cancel
+
+        </button>
+
+    </form>
 
 </div>
 
