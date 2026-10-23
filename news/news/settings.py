@@ -68,7 +68,9 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'cloudinary',
     'cloudinary_storage',
+    'news_automation',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
