@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Import UrbanNews Leads</title>
+</head>
+<body>
+    <h1>Import UrbanNews News Leads</h1>
+
+    <p>
+        Upload your private JSON export. Imported leads will remain
+        unapproved until they have been reviewed.
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="file">JSON export file</label>
+        <input
+            type="file"
+            id="file"
+            name="file"
+            accept=".json,application/json"
+            required
+        >
+
+        <button type="submit">Import News Leads</button>
+    </form>
+
+    <p>
+        <a href="/admin/">Return to Django Admin</a>
+    </p>
+</body>
+</html>
